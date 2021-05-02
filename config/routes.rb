@@ -8,5 +8,5 @@ Rails.application.routes.draw do
     end
   end
 
-  GET '*path', to: 'pages#index', via: all
+  get '*path', to: 'pages#index', via: :all
 end

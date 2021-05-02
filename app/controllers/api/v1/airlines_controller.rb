@@ -1,9 +1,9 @@
-module api
-  module v1
+module Api
+  module V1
     class AirlinesController < ApplicationController
       def index
         airlines = Airline.all
-        AirlineSerializer.new(airlines, options).serialized_json
+        render json: AirlineSerializer.new(airlines, options).serialized_json
       end
 
       def show
@@ -49,7 +49,7 @@ module api
       end
 
       def options
-        @options ||= { include: %[reviews] }
+        @options ||= { include: %i[reviews] }
       end
 
     end
