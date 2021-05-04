@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import axios from 'axios';
 import Header from './AirlineHeader';
 import styled from 'styled-components';
+import ReviewForm from './ReviewForm';
 
 const INITIAL_DATA = {
   data: {},
@@ -22,6 +23,7 @@ const StyledColumn = styled.div`
 
   &:last-child {
     background-color: #000;
+    color: #fff;
   }
 `
 
@@ -43,19 +45,28 @@ const Airline = (props) => {
 
   return (
     <StyledWrapper>
-      <StyledColumn>
-        <StyledMainContent>
-          {loaded && (
-            <Header
-              attributes={selectedAirline.data.attributes}
-              reviewsCount={selectedAirline.included.length}
-            />
-          )}
-        </StyledMainContent>
-      </StyledColumn>
-      <StyledColumn>
-        <div role='region' aria-label='Add Review'>Review Form Goes Here</div>
-      </StyledColumn>
+      {loaded && (
+        <>
+          <StyledColumn>
+            <StyledMainContent>
+              
+                <Header
+                  attributes={selectedAirline.data.attributes}
+                  reviewsCount={selectedAirline.included.length}
+                />
+              
+            </StyledMainContent>
+          </StyledColumn>
+          <StyledColumn>
+            <div role='region' aria-label='Add Review'>
+
+              <ReviewForm
+                airlineName={selectedAirline.data.attributes.name}
+              />
+            </div>
+          </StyledColumn>
+        </>
+      )}
 
     </StyledWrapper>
   );
