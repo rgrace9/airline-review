@@ -31,15 +31,6 @@ const StyledList = styled.ul`
 const Airlines = () => {
   const [airlinesList, setAirlinesList] = useState([]);
 
-  const getAirlines = async() => {
-    try {
-      const res = await axios.get('/api/v1/airlines.json')
-
-    } catch(err) {
-
-      console.error(err)
-    }
-  }
   useEffect(() => {
     axios.get('/api/v1/airlines.json').then(resp => {
       setAirlinesList(resp.data.data)
