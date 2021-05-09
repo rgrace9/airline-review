@@ -7,47 +7,35 @@ const StyledFieldSet = styled.div`
   flex-direction: column;
 `;
 const ReviewForm = (props) => {
-  const { reviewTitle, setReviewTitle } = useState("");
-  const { reviewDescription, setReviewDescription } = useState("");
-  const { airlineName } = props;
+  const { airlineName, handleSubmit, handleChange, review } = props;
 
-  const onTitleChange = (e) => {
-    console.log(e);
-  };
-  const onDescriptionChange = (e) => {
-    console.log(e);
-  };
 
-  const resetForm = () => {
-    setReviewTitle("");
-    setReviewDescription("");
-  };
   return (
     <div>
       <p>Have an experience with {airlineName}? Share your review!</p>
-      <form>
+      <form onSubmit={handleSubmit}>
         <StyledFieldSet>
           <legend>Review:</legend>
           <div className="field">
-            <label htmlFor="reviewTitle">Title:</label>
+            <label htmlFor="title">Title:</label>
             <input
               required
-              value={reviewTitle}
-              onChange={onTitleChange}
+              value={review.title}
+              onChange={handleChange}
               type="text"
-              id="reviewTitle"
-              name="reviewTitle"
+              id="title"
+              name="title"
             />
           </div>
           <div className="field">
             <label htmlFor="description">Description:</label>
             <input
               required
-              value={reviewDescription}
+              value={review.description}
               type="text"
               id="description"
               name="description"
-              onChange={onDescriptionChange}
+              onChange={handleChange}
             />
           </div>
           <div className="field">

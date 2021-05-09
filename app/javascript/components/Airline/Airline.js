@@ -9,6 +9,11 @@ const INITIAL_DATA = {
   included: [],
 };
 
+const INITIAL_REVIEW_STATE = {
+  title: '',
+  description: '',
+  score: 0,
+}
 const StyledWrapper = styled.div`
   margin-left: auto;
   margin-right: auto;
@@ -33,6 +38,7 @@ const StyledMainContent = styled.main`
 const Airline = (props) => {
   const [selectedAirline, setSelectedAirline] = useState(INITIAL_DATA);
   const [loaded, setLoaded] = useState(false);
+  const [review, setReview] = useState(INITIAL_REVIEW_STATE)
   const {
     match: {
       params: { slug },
@@ -48,6 +54,33 @@ const Airline = (props) => {
       .catch((resp) => console.log("err", resp));
   }, []);
 
+  const handleChange = (e) => {
+    e.preventDefault();
+    setReview(prevState => {
+      return {
+        ...prevState,
+        [e.target.name]: e.target.value
+      }
+    })
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const csrfToken = document.querySelector('[name=csrf-token]').content
+    axios.defaults.headers.common['X-CSRF-TOKEN'] = csrfToken;
+    const airline_id = selectedAirline.data.id;
+    axios.post('/api/v1/reviews', {review, airline_id}).then(resp => {
+      const included =  [...airline.included, resp.data.data]
+      setSelectedAirline(prevState => {
+        return {
+          ...prevState,
+          included
+        }
+      })
+      setReview(INITIAL_REVIEW_STATE)
+    }).catch(resp => {})
+  };
+
   return (
     <StyledWrapper>
       {loaded && (
@@ -62,7 +95,12 @@ const Airline = (props) => {
           </StyledColumn>
           <StyledColumn>
             <div role="region" aria-label="Add Review">
-              <ReviewForm airlineName={selectedAirline.data.attributes.name} />
+              <ReviewForm
+                review={review}
+                handleChange={handleChange}
+                handleSubmit={handleSubmit}
+                airlineName={selectedAirline.data.attributes.name}
+              />
             </div>
           </StyledColumn>
         </>
