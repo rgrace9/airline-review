@@ -12,7 +12,7 @@ const INITIAL_DATA = {
 const INITIAL_REVIEW_STATE = {
   title: '',
   description: '',
-  score: 0,
+  score: '0',
 }
 const StyledWrapper = styled.div`
   margin-left: auto;
@@ -55,7 +55,6 @@ const Airline = (props) => {
   }, []);
 
   const handleChange = (e) => {
-    e.preventDefault();
     setReview(prevState => {
       return {
         ...prevState,
@@ -64,13 +63,14 @@ const Airline = (props) => {
     })
   };
 
+  console.log('REVIEW', review)
   const handleSubmit = (e) => {
     e.preventDefault();
     const csrfToken = document.querySelector('[name=csrf-token]').content
     axios.defaults.headers.common['X-CSRF-TOKEN'] = csrfToken;
     const airline_id = selectedAirline.data.id;
     axios.post('/api/v1/reviews', {review, airline_id}).then(resp => {
-      const included =  [...airline.included, resp.data.data]
+      const included =  [...selectedAirline.included, resp.data.data]
       setSelectedAirline(prevState => {
         return {
           ...prevState,
@@ -81,6 +81,7 @@ const Airline = (props) => {
     }).catch(resp => {})
   };
 
+  console.log(review)
   return (
     <StyledWrapper>
       {loaded && (
