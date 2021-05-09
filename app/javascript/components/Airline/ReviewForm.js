@@ -93,7 +93,7 @@ const StyledRatingBox = styled.div`
 `
 
 const StyledButton = styled.button`
-  background-color: #333;
+  background-color: green;
   color: #fff;
   border-radius: 4px;
   padding: 12px;
@@ -101,6 +101,7 @@ const StyledButton = styled.button`
   text-align: center;
   transition: ease-in-out 0.1s;
   width: 100%;
+  margin-top: 20px;
   &:hover {
     background-color: #fff;
     color: #333;

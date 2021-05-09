@@ -3,6 +3,7 @@ import axios from "axios";
 import Header from "./AirlineHeader";
 import styled from "styled-components";
 import ReviewForm from "./ReviewForm";
+import Review from './Review';
 
 const INITIAL_DATA = {
   data: {},
@@ -33,7 +34,7 @@ const StyledColumn = styled.div`
 `;
 
 const StyledMainContent = styled.main`
-  padding-left: 50px;
+  padding: 0px 20px;
 `;
 const Airline = (props) => {
   const [selectedAirline, setSelectedAirline] = useState(INITIAL_DATA);
@@ -63,7 +64,12 @@ const Airline = (props) => {
     })
   };
 
-  console.log('REVIEW', review)
+  const reviews = selectedAirline.included.filter(item => item.type === 'review').map(review => {
+    return (
+      <Review key={review.id} attributes={review.attributes}/>
+    )
+  })
+
   const handleSubmit = (e) => {
     e.preventDefault();
     const csrfToken = document.querySelector('[name=csrf-token]').content
@@ -92,6 +98,9 @@ const Airline = (props) => {
                 attributes={selectedAirline.data.attributes}
                 reviewsCount={selectedAirline.included.length}
               />
+              <div>
+              {reviews}
+              </div>
             </StyledMainContent>
           </StyledColumn>
           <StyledColumn>
