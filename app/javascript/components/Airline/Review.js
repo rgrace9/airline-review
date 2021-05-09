@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from "styled-components";
-
+import Rating from '../Rating/Rating';
 const StyledWrapper = styled.div`
   padding: 20px;
   border: 1px solid rgba(0,0,0,0.1);
@@ -10,7 +10,8 @@ const StyledWrapper = styled.div`
 `
 
 const StyledRatingContainer = styled.div`
-
+  display: flex;
+  flex-direction: row;
 `
 const StyledTitle = styled.div`
   padding: 20px 0 0 0;
@@ -28,9 +29,9 @@ const Review = props => {
   } = props.attributes;
   return (
     <StyledWrapper>
-      <div className='rating-container'>
-        <p>Rating: {score}</p> 
-      </div>
+      <StyledRatingContainer>
+        <Rating score={score} /> 
+      </StyledRatingContainer>
       <StyledTitle><p>{title}</p></StyledTitle>
       <StyledDescription>{description}</StyledDescription>
     </StyledWrapper>

@@ -87,7 +87,6 @@ const Airline = (props) => {
     }).catch(resp => {})
   };
 
-  console.log(review)
   return (
     <StyledWrapper>
       {loaded && (
