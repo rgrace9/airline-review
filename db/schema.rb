@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_02_024021) do
+ActiveRecord::Schema.define(version: 2021_05_05_182559) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -23,6 +23,29 @@ ActiveRecord::Schema.define(version: 2021_05_02_024021) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "airports", force: :cascade do |t|
+    t.bigint "city_id", null: false
+    t.string "name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["city_id"], name: "index_airports_on_city_id"
+  end
+
+  create_table "cities", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "pilots", force: :cascade do |t|
+    t.string "first_name"
+    t.string "last_name"
+    t.bigint "airline_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["airline_id"], name: "index_pilots_on_airline_id"
+  end
+
   create_table "reviews", force: :cascade do |t|
     t.string "title"
     t.string "description"
@@ -33,5 +56,7 @@ ActiveRecord::Schema.define(version: 2021_05_02_024021) do
     t.index ["airline_id"], name: "index_reviews_on_airline_id"
   end
 
+  add_foreign_key "airports", "cities"
+  add_foreign_key "pilots", "airlines"
   add_foreign_key "reviews", "airlines"
 end
